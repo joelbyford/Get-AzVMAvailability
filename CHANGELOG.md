@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Tooling: `Validate-Script.ps1` Check 5 docs scan now uses `git ls-files` instead of `Get-ChildItem` so only committed/staged files can trigger version-consistency failures — prevents false positives from local untracked scratch notes under `docs/`
+- Tooling: `Validate-Script.ps1` Check 5 now guards `git ls-files` with `Get-Command git` — falls back to `Get-ChildItem` with a `WARN` when git is unavailable (e.g. source ZIP install), preventing a `CommandNotFoundException` crash
+- Tooling: `Validate-Script.ps1` Check 5 now checks `$LASTEXITCODE` after `git ls-files` — if git exits non-zero (not a git worktree), emits `WARN` and falls back to `Get-ChildItem` instead of silently returning an empty file list and passing Check 5 trivially
+- Tests: Strengthened RFC1123 `Invoke-WithRetry` integration test — changed `AddSeconds(3)` to `AddSeconds(300)` and assertion from `-ge 1` to `-ge 60`; default backoff (2s + jitter) can no longer satisfy the threshold, so header-parsing regressions are reliably caught
+- Tests: Added end-to-end `Invoke-WithRetry` integration tests for `Retry-After` header parsing using `Add-Type` fake exception class with real `Response.Headers` dictionary and `Mock Start-Sleep` to exercise the actual `catch` path (189 tests total)
+
+### Chores
+- CI: Updated `actions/checkout` from `@v4` to `@v4.2.2` across all 4 workflow files — eliminates Node.js 20 deprecation warnings (Node.js 24 required by GitHub Actions from June 2026)
+
 ## [1.11.3] - 2026-03-16
 
 ### Fixed
