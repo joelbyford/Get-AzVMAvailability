@@ -105,8 +105,10 @@ Install-Module -Name Az.Resources -Scope CurrentUser -Repository PSGallery -Forc
 # Optional: Install ImportExcel for styled exports
 Install-Module -Name ImportExcel -Scope CurrentUser -Repository PSGallery -Force
 
-# Trust the current repo directory
-Register-PSRepository -Name Get-AzVMAvailability -SourceLocation . -InstallationPolicy Trusted
+# Register a local PowerShell repository for this repo (idempotent)
+if (-not (Get-PSRepository -Name Get-AzVMAvailability -ErrorAction SilentlyContinue)) {
+    Register-PSRepository -Name Get-AzVMAvailability -SourceLocation . -InstallationPolicy Trusted
+}
 
 ```
 
