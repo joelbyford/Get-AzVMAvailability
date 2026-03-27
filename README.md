@@ -96,6 +96,8 @@ Register-PSRepository -Name Get-AzVMAvailability -SourceLocation . -Installation
 ```powershell
 # Interactive Login to Azure
 Connect-AzAccount -Tenant YourTenantIdHere -subscription YourSubIdHere
+# Use this instead if calling from a codespace
+# Connect-AzAccount -Tenant YourTenantIdHere -subscription YourSubIdHere -UseDeviceAuthentication
 
 # Interactive mode - prompts for all options
 .\Get-AzVMAvailability.ps1
