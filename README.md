@@ -95,7 +95,10 @@ git clone https://github.com/zacharyluz/Get-AzVMAvailability.git
 cd Get-AzVMAvailability
 
 # Install required Azure modules (if needed)
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# Windows only: enable running scripts from the PowerShell Gallery in your profile
+if ($IsWindows) {
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+}
 Install-Module -Name Az.Compute -Scope CurrentUser
 Install-Module -Name Az.Resources -Scope CurrentUser
 
